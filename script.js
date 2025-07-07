@@ -304,9 +304,12 @@ async function showItemDetailModal(id) {
                 <div id="review-form-container"></div>
                 <div id="reviews-list" class="space-y-4 mt-4">A carregar avaliações...</div>
             </div>
-            <button onclick="hideModal('itemDetailModal')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            <button class="item-detail-close-btn absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
         </div>
     `;
+
+    // Adiciona o listener para o botão de fechar do modal de detalhes
+    modalContent.querySelector('.item-detail-close-btn').addEventListener('click', () => hideModal('itemDetailModal'));
 
     const actionsContainer = modalContent.querySelector('#modal-actions');
     if (currentUserId === data.ownerId) {
@@ -399,7 +402,7 @@ function showEditItemModal(id) {
                 <input type="url" name="imageUrl" value="${data.imageUrl}" class="w-full p-2 border rounded-lg" placeholder="URL da Imagem">
             </div>
             <div class="mt-6 flex gap-4">
-                <button type="button" onclick="document.getElementById('editItemModal').dispatchEvent(new Event('close'))" class="flex-1 bg-gray-200 py-2 px-4 rounded-lg">Cancelar</button>
+                <button type="button" class="flex-1 bg-gray-200 py-2 px-4 rounded-lg" onclick="hideModal('editItemModal')">Cancelar</button>
                 <button type="submit" class="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-lg flex items-center justify-center">
                     <span class="btn-text">Salvar Alterações</span>
                     <span class="spinner hidden"></span>
