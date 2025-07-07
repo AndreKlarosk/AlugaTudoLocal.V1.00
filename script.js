@@ -370,29 +370,11 @@ async function showOwnerProfileModal(ownerId) {
         const whatsappLink = phone ? `https://wa.me/55${phone}` : '';
 
         modalContent.innerHTML = `
-            <div class="bg-gray-200 h-24 rounded-t-2xl"></div>
-            <div class="p-6 pt-0">
-                <img src="${ownerData.photoURL}" alt="Foto de ${ownerData.displayName}" class="owner-photo" onerror="this.onerror=null;this.src='https://placehold.co/400x400/6366f1/ffffff?text=${ownerData.displayName[0]}';">
-                
-                <h3 class="text-2xl font-bold text-gray-900">${ownerData.displayName}</h3>
-                <p class="text-sm text-gray-500 mb-6">${memberSince}</p>
-
-                <div class="space-y-4 text-left">
-                    ${whatsappLink ? `
-                    <a href="${whatsappLink}" target="_blank" class="contact-button contact-button-whatsapp">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M16.75 13.96c.25.13.42.2.42.51v.21c-.02.75-.48 1.4-1.12 1.52-1.23.23-2.5-.22-3.6-1.03-.98-.71-1.72-1.7-2.2-2.78-.5-1.1-.35-2.35.34-3.55.2-.34.42-.64.67-.9.23-.25.5-.37.7-.37h.19c.35-.02.65.17.8.48l.4 1.15c.13.34.12.74-.04 1.09-.16.35-.45.68-.78.93-.2.15-.38.33-.3.61.1.28.43.92.93 1.42.5.5.95.73 1.42.93.28.1.46-.1.61-.3.25-.33.58-.62.93-.78.35-.16.74-.17 1.09-.04l1.15.4c.3.15.48.45.48.8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                        <span>Conversar no WhatsApp</span>
-                    </a>
-                    ` : ''}
-
-                    <a href="mailto:${ownerData.email}" class="contact-button contact-button-email">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6ZM20 6L12 11L4 6H20ZM20 18H4V8L12 13L20 8V18Z"/></svg>
-                        <span>Enviar Email</span>
-                    </a>
-                </div>
-            </div>
-             <button onclick="hideModal('ownerProfileModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
-        `;
+            ;
+            modalContent.querySelector('.owner-profile-close-btn').addEventListener('click', () => {
+            hideModal('ownerProfileModal');
+        });
+        
     } catch (error) {
         console.error("Erro ao buscar perfil do proprietário:", error);
         modalContent.innerHTML = `<div class="p-8"><p class="text-red-500">Ocorreu um erro ao carregar o perfil.</p></div>`;
