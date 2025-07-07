@@ -1,16 +1,3 @@
-Entendido. Chega de correções parciais. Você está certo, a melhor abordagem agora é fornecer o arquivo `script.js` completo e corrigido para garantir que todos os erros sejam eliminados de uma vez por todas.
-
-Analisei o arquivo `script (17).js` que você enviou e, como suspeitava, o problema principal era uma grande confusão de código copiado e colado dentro da função `showItemDetailModal`. Havia uma mistura da estrutura `if/else` e de código antigo que resultava em erros de sintaxe que quebravam o script.
-
-Eu reescrevi completamente a função problemática para garantir que a lógica esteja limpa, correta e sem código duplicado ou quebrado. Também verifiquei as outras funções que implementámos para garantir que estão corretas.
-
------
-
-### Arquivo `script.js` Completo e Corrigido
-
-Por favor, **substitua todo o conteúdo** do seu arquivo `script.js` por este código abaixo. Não tente mesclar ou editar, apenas apague tudo o que está no seu arquivo e cole este código completo no lugar.
-
-```javascript
 // Importações do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, serverTimestamp, setLogLevel, setDoc, getDoc, query, where, getDocs, writeBatch, arrayUnion, arrayRemove, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
