@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - AlugaTudo Local</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100">
+
+    <header class="bg-gray-800 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold">AlugaTudo Local</a>
+            <div id="authContainerProfile"></div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div id="profileContent" class="hidden">
+            <div class="bg-white p-8 rounded-lg shadow-md mb-8 flex flex-col md:flex-row items-center gap-6">
+                <img id="userPhoto" src="" alt="Foto de Perfil" class="w-24 h-24 rounded-full border-4 border-indigo-500">
+                <div>
+                    <h1 id="userName" class="text-4xl font-bold text-center md:text-left"></h1>
+                    <p id="userEmail" class="text-gray-600 text-center md:text-left"></p>
+                </div>
+            </div>
+
+            <div id="subscriptionPlansSection" class="hidden bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold text-center mb-2">Planos para Locadores</h2>
+                <p class="text-center text-gray-600 mb-8">Escolha o plano ideal para si e comece a anunciar os seus itens!</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="border rounded-lg p-6 text-center flex flex-col">
+                        <h3 class="text-xl font-bold">Locador Casual</h3>
+                        <p class="text-4xl font-extrabold my-4">R$ 19,90<span class="text-base font-normal text-gray-500">/mês</span></p>
+                        <p class="text-gray-500 flex-grow">Ideal para quem quer testar a plataforma ou tem poucos itens para alugar.</p>
+                        <button data-plan="mensal" class="select-plan-btn mt-6 bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700 transition w-full">Selecionar Plano</button>
+                    </div>
+                    <div class="border-2 border-indigo-600 rounded-lg p-6 text-center flex flex-col relative">
+                        <span class="absolute top-0 -translate-y-1/2 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</span>
+                        <h3 class="text-xl font-bold">Locador Frequente</h3>
+                        <p class="text-4xl font-extrabold my-4">R$ 99,90<span class="text-base font-normal text-gray-500">/semestre</span></p>
+                        <p class="text-gray-500 flex-grow">Com desconto. Para quem pretende usar a plataforma de forma consistente.</p>
+                        <button data-plan="semestral" class="select-plan-btn mt-6 bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700 transition w-full">Selecionar Plano</button>
+                    </div>
+                    <div class="border rounded-lg p-6 text-center flex flex-col">
+                        <h3 class="text-xl font-bold">Locador Profissional</h3>
+                        <p class="text-4xl font-extrabold my-4">R$ 179,90<span class="text-base font-normal text-gray-500">/ano</span></p>
+                        <p class="text-gray-500 flex-grow">O melhor custo-benefício para pequenos negócios e fonte de renda principal.</p>
+                        <button data-plan="anual" class="select-plan-btn mt-6 bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700 transition w-full">Selecionar Plano</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="paymentInstructions" class="hidden bg-green-50 mt-8 p-8 rounded-lg shadow-md border-l-4 border-green-500">
+                <h3 class="text-2xl font-bold text-green-800">Instruções para Pagamento</h3>
+                <p class="mt-4 text-gray-700">Para ativar o seu plano <strong id="selectedPlanText"></strong>, por favor, siga os passos abaixo:</p>
+                <ol class="list-decimal list-inside mt-4 space-y-2 text-gray-700">
+                    <li>Realize um PIX no valor de <strong id="planPriceText"></strong> para a seguinte chave:</li>
+                    <li class="mt-2 p-3 bg-gray-200 rounded-md text-center">
+                        <strong class="text-lg font-mono">48355760000148</strong>
+                    </li>
+                    <li>Após o pagamento, envie o comprovativo para o nosso e-mail ou WhatsApp:</li>
+                    <li class="mt-2 p-3 bg-gray-200 rounded-md text-center">
+                        <strong class="text-lg">financeiroklar@hotmail.com</strong> ou <strong class="text-lg">(53) 99993-2927</strong>
+                    </li>
+                    <li>A sua assinatura será ativada manualmente pelo nosso administrador em até 24 horas após a confirmação do pagamento.</li>
+                </ol>
+                <p class="mt-6 text-sm text-gray-600">Obrigado por se juntar à nossa comunidade de locadores!</p>
+            </div>
+
+            <div id="locadorInfo" class="hidden bg-white p-8 rounded-lg shadow-md">
+                 <div class="flex justify-between items-start">
+                    <h3 class="text-2xl font-bold">Informações do Locador</h3>
+                </div>
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <p><strong>Nome:</strong> <span id="locadorFullName"></span></p>
+                    <p><strong>Documento:</strong> <span id="locadorDocument"></span></p>
+                    <p><strong>Telefone:</strong> <span id="locadorPhone"></span></p>
+                    <p><strong>Chave PIX:</strong> <span id="locadorPixKey"></span></p>
+                    <p class="md:col-span-2 pt-2 mt-2 border-t"><strong>Assinatura ativa até:</strong> <span id="subscriptionEndDate" class="font-bold text-green-600"></span></p>
+                </div>
+            </div>
+
+            <section id="myItemsSection" class="hidden mt-12">
+                <h2 class="text-3xl font-bold mb-6 border-b pb-2">Meus Anúncios</h2>
+                <div id="myItemsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <p id="noItemsMessage" class="hidden col-span-full text-center text-gray-500">Você ainda não anunciou nenhum item.</p>
+                </div>
+            </section>
+        </div>
+
+        <div id="accessDeniedMessage" class="text-center p-8 bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-red-600">Acesso Negado</h2>
+            <p class="mt-2 text-gray-600">Por favor, faça login para aceder ao seu perfil.</p>
+        </div>
+    </main>
+    
+    <div id="editItemModal" class="hidden fixed inset-0 bg-black/60 items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 modal-content transform scale-95 opacity-0"></div>
+    </div>
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50"></div>
+
+    <script type="module" src="perfil.js"></script>
+</body>
+</html>

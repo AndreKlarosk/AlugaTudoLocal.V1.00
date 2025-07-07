@@ -1,0 +1,99 @@
+/* Estilos e animações principais */
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(-45deg, #6b21a8, #c026d3, #4f46e5, #2563eb);
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
+}
+
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px) scale(0.98); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
+.item-card-animation { 
+    animation: fadeIn 0.6s ease-out forwards; 
+}
+
+/* Fallback para imagem quebrada */
+img.error { 
+    content: url('https://placehold.co/600x400/ef4444/ffffff?text=Imagem+Inválida'); 
+}
+
+/* Estilos para os Modais */
+.modal-backdrop {
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Estilos para o menu dropdown */
+.dropdown-menu {
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+/* Estilos para a avaliação por estrelas */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+.star-rating input[type="radio"] {
+    display: none;
+}
+.star-rating label {
+    font-size: 2rem;
+    color: #d1d5db; /* cinza claro */
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.star-rating input[type="radio"]:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #f59e0b; /* amarelo */
+}
+
+/* Estilos para Toast Notifications */
+@keyframes toast-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+.toast {
+    animation: toast-in 0.5s ease-out forwards;
+}
+
+/* Estilo para o spinner de carregamento */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
