@@ -310,11 +310,11 @@ async function showItemDetailModal(id) {
         actionsContainer.innerHTML = `<button id="editItemBtn" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg">Editar</button><button id="deleteItemBtn" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg">Excluir</button>`;
         actionsContainer.querySelector('#editItemBtn').addEventListener('click', () => showEditItemModal(docId));
         actionsContainer.querySelector('#deleteItemBtn').addEventListener('click', () => deleteItem(docId));
-    } else {
-        actionsContainer.innerHTML = `<button id="contactOwnerBtn" class="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg">Contatar Proprietário</button>`;
-      actionsContainer.querySelector('#contactOwnerBtn').addEventListener('click', () => {
+    } actionsContainer.innerHTML = `<button id="contactOwnerBtn" class="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg">Contatar Proprietário</button>`;
+        
+        actionsContainer.querySelector('#contactOwnerBtn').addEventListener('click', () => {
             showOwnerProfileModal(data.ownerId);
-            hideModal('itemDetailModal'); // Opcional: esconde o modal de item para focar no perfil
+            hideModal('itemDetailModal');
         });
 
             // 2. Criar uma referência e buscar o documento do proprietário
