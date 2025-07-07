@@ -46,7 +46,7 @@ img.error {
     transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
 
-/* Estilos para a avaliação por estrelas */
+/* Bloco de CSS Final e Simplificado */
 .star-rating {
     display: flex;
     flex-direction: row-reverse;
@@ -57,15 +57,20 @@ img.error {
 }
 .star-rating label {
     font-size: 2rem;
-    color: #d1d5db; /* cinza claro (cor inicial) */
+    color: #d1d5db; /* Cor cinza inicial */
     cursor: pointer;
     transition: color 0.2s;
 }
 
-/* Regra para o efeito de passar o mouse (hover) */
+/* Efeito ao passar o rato por cima */
 .star-rating label:hover,
 .star-rating label:hover ~ label {
-    color: #f59e0b; /* amarelo */
+    color: #f59e0b; /* Amarelo */
+}
+
+/* Cor para a estrela selecionada (será controlada pelo JavaScript) */
+.star-rating label.selected {
+    color: #f59e0b; /* Amarelo */
 }
 /* Estilos para Toast Notifications */
 @keyframes toast-in {
