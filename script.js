@@ -495,23 +495,28 @@ function loadReviews(itemId) {
                 </form>
             `;
             document.getElementById('add-review-form').addEventListener('submit', (e) => handleReviewSubmit(e, itemId, item.data.ownerId));
-          // =================================================================
-            // >> ADICIONE ESTE NOVO BLOCO DE CÓDIGO AQUI <<
-            // Responsável pelo feedback visual IMEDIATO das estrelas
-            const starLabels = document.querySelectorAll('.star-rating label');
-            starLabels.forEach(label => {
-                label.addEventListener('click', () => {
-                    // Remove a cor de todas as estrelas primeiro
-                    starLabels.forEach(lbl => lbl.style.color = '#d1d5db');
-                    // Pinta a estrela clicada e as anteriores
-                    let currentLabel = label;
-                    while (currentLabel) {
-                        currentLabel.style.color = '#f59e0b';
-                        currentLabel = currentLabel.nextElementSibling?.nextElementSibling;
-                    }
-                });
+          const starContainer = document.querySelector('.star-rating');
+if (starContainer) {
+    const allLabels = Array.from(starContainer.querySelectorAll('label'));
+
+    starContainer.addEventListener('click', (e) => {
+        // Garante que o clique foi numa estrela (label)
+        if (e.target.tagName === 'LABEL') {
+            const clickedLabel = e.target;
+            const clickedIndex = allLabels.findIndex(label => label === clickedLabel);
+
+            // Pinta ou despinta as estrelas com base na posição da que foi clicada
+            allLabels.forEach((label, index) => {
+                if (index >= clickedIndex) {
+                    label.style.color = '#f59e0b'; // Amarelo
+                } else {
+                    label.style.color = '#d1d5db'; // Cinza
+                }
             });
-            // =================================================================
+        }
+    });
+}
+// =================================================================
         } else {
             reviewFormContainer.innerHTML = '';
         }
