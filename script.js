@@ -312,6 +312,44 @@ async function showItemDetailModal(id) {
         actionsContainer.querySelector('#deleteItemBtn').addEventListener('click', () => deleteItem(docId));
     } else {
         actionsContainer.innerHTML = `<button id="contactOwnerBtn" class="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg">Contatar Proprietário</button>`;
+      actionsContainer.querySelector('#contactOwnerBtn').addEventListener('click', async () => {
+        try {
+            // 1. Obter o ID do proprietário a partir dos dados do item
+            const ownerId = data.ownerId;
+            if (!ownerId) {
+                alert('Erro: ID do proprietário não encontrado.');
+                return;
+            }
+
+            // 2. Criar uma referência e buscar o documento do proprietário
+            const ownerRef = doc(db, "users", ownerId);
+            const ownerSnap = await getDoc(ownerRef);
+
+            if (ownerSnap.exists()) {
+                const ownerData = ownerSnap.data();
+
+                // 3. Extrair os dados de contato do perfil do proprietário
+                const ownerEmail = ownerData.email || 'Não informado';
+                const ownerPhone = ownerData.phone || 'Não informado'; // Assumindo que o campo 'phone' existe
+
+                // 4. Exibir os dados para o utilizador
+                alert(
+                    `Entre em contato com o proprietário:\n\n` +
+                    `Email: ${ownerEmail}\n` +
+                    `Telefone/WhatsApp: ${ownerPhone}`
+                );
+            } else {
+                alert('Erro: Não foi possível encontrar os dados de contato do proprietário.');
+                console.error("Documento do proprietário não encontrado:", ownerId);
+            }
+        } catch (error) {
+            alert('Ocorreu um erro ao buscar os contatos. Tente novamente mais tarde.');
+            console.error("Erro ao contatar proprietário:", error);
+        }
+    });
+    // =================================================================
+
+}
     }
     showModal('itemDetailModal');
     loadReviews(docId);
