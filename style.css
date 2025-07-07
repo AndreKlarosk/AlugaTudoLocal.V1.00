@@ -57,21 +57,16 @@ img.error {
 }
 .star-rating label {
     font-size: 2rem;
-    color: #d1d5db; /* cinza claro */
+    color: #d1d5db; /* cinza claro (cor inicial) */
     cursor: pointer;
     transition: color 0.2s;
 }
-/* A estrela que está sob o mouse (hover) E as anteriores a ela ficam amarelas */
+
+/* Regra para o efeito de passar o mouse (hover) */
 .star-rating label:hover,
 .star-rating label:hover ~ label {
     color: #f59e0b; /* amarelo */
 }
-
-/* Após o clique (checked), a estrela selecionada E as anteriores ficam permanentemente amarelas */
-.star-rating input[type="radio"]:checked ~ label {
-    color: #f59e0b; /* amarelo */
-}
-
 /* Estilos para Toast Notifications */
 @keyframes toast-in {
     from {
