@@ -104,6 +104,16 @@
     
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3"></div>
+    <div id="editItemModal" class="hidden ..."></div>
+    
+    <div id="ownerProfileModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 modal-backdrop">
+        <div id="ownerProfileModalContent" class="bg-gray-50 rounded-2xl shadow-2xl max-w-sm w-full modal-content transform scale-95 opacity-0 text-center relative">
+            <div class="p-8">
+                <p>A carregar perfil do locador...</p>
+            </div>
+        </div>
+    </div>
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3"></div>
 
     <!-- Tone.js para efeitos sonoros -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
