@@ -1,3 +1,16 @@
+Entendido. Chega de correções parciais. Você está certo, a melhor abordagem agora é fornecer o arquivo `script.js` completo e corrigido para garantir que todos os erros sejam eliminados de uma vez por todas.
+
+Analisei o arquivo `script (17).js` que você enviou e, como suspeitava, o problema principal era uma grande confusão de código copiado e colado dentro da função `showItemDetailModal`. Havia uma mistura da estrutura `if/else` e de código antigo que resultava em erros de sintaxe que quebravam o script.
+
+Eu reescrevi completamente a função problemática para garantir que a lógica esteja limpa, correta e sem código duplicado ou quebrado. Também verifiquei as outras funções que implementámos para garantir que estão corretas.
+
+-----
+
+### Arquivo `script.js` Completo e Corrigido
+
+Por favor, **substitua todo o conteúdo** do seu arquivo `script.js` por este código abaixo. Não tente mesclar ou editar, apenas apague tudo o que está no seu arquivo e cole este código completo no lugar.
+
+```javascript
 // Importações do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, serverTimestamp, setLogLevel, setDoc, getDoc, query, where, getDocs, writeBatch, arrayUnion, arrayRemove, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -39,6 +52,24 @@ const authMenu = document.getElementById('authMenu');
 const suspensionMessage = document.getElementById('suspensionMessage');
 const submitItemBtn = document.getElementById('submitItemBtn');
 const itemsCollectionRef = collection(db, "items");
+
+
+// =================================================================
+// >> FUNÇÃO GLOBAL PARA AS ESTRELAS (NECESSÁRIA PARA A AVALIAÇÃO) <<
+window.rateStar = function(value) {
+    console.log(`Função rateStar chamada com o valor: ${value}`);
+    const labels = document.querySelectorAll('.star-rating label');
+    labels.forEach(label => {
+        const starValue = parseInt(label.getAttribute('for').split('-')[0]);
+        if (starValue <= value) {
+            label.style.color = '#f59e0b';
+        } else {
+            label.style.color = '#d1d5db';
+        }
+    });
+}
+// =================================================================
+
 
 // --- Funções de UI ---
 function showToast(message, type = 'info') {
@@ -108,7 +139,6 @@ function updateUIForAuthState(user, userData) {
         currentUserId = user.uid;
         const isAdmin = user.uid === ADMIN_UID;
         
-        // VERIFICAÇÃO CHAVE: O utilizador é um locador E a assinatura não expirou
         const subscriptionActive = userData.userRole === 'locador' && userData.subscriptionExpiresAt?.toDate() > new Date();
         const isLocador = subscriptionActive;
         
@@ -155,7 +185,7 @@ function updateUIForAuthState(user, userData) {
             suspensionMessage.textContent = 'A sua conta está suspensa. Não pode anunciar novos itens. Por favor, contacte o suporte.';
             submitItemBtn.disabled = true;
             submitItemBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        } else if (userData.userRole === 'locador' && !isLocador) { // Era locador, mas a assinatura expirou
+        } else if (userData.userRole === 'locador' && !isLocador) {
             suspensionMessage.classList.remove('hidden');
             suspensionMessage.textContent = 'A sua assinatura expirou. Por favor, renove o seu plano no seu perfil para anunciar novos itens.';
             if (addItemSection) addItemSection.classList.add('hidden');
@@ -186,7 +216,6 @@ function updateUIForAuthState(user, userData) {
 }
 
 // --- Funções de Renderização ---
-
 function renderFilteredItems(filterText = '', filterCategory = '', showOnlyFavorites = false) {
     let itemsToRender = allItems;
     if (showOnlyFavorites) {
@@ -257,7 +286,6 @@ function renderItemCard(id, data, container) {
 }
 
 // --- Funções de Modal ---
-
 function showModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.classList.remove('hidden');
@@ -278,12 +306,16 @@ function hideModal(modalId) {
     }, 300);
 }
 
+
+// =================================================================
+// >> FUNÇÃO showItemDetailModal COMPLETAMENTE CORRIGIDA <<
 async function showItemDetailModal(id) {
     const item = allItems.find(i => i.id === id);
     if (!item) return;
     const { data, id: docId } = item;
     const modalContent = document.querySelector('#itemDetailModal .modal-content');
     const rating = data.averageRating ? `⭐ ${data.averageRating.toFixed(1)} (${data.reviewCount || 0} avaliações)` : 'Sem avaliações';
+    
     modalContent.innerHTML = `
         <img src="${data.imageUrl}" alt="${data.itemName}" class="w-full h-64 object-cover rounded-t-2xl" onerror="this.onerror=null;this.src='https://placehold.co/600x400/ef4444/ffffff?text=Imagem+Inválida';">
         <div class="p-6">
@@ -302,51 +334,31 @@ async function showItemDetailModal(id) {
                 <div id="review-form-container"></div>
                 <div id="reviews-list" class="space-y-4 mt-4">A carregar avaliações...</div>
             </div>
-            <button onclick="document.getElementById('itemDetailModal').dispatchEvent(new Event('close'))" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            <button onclick="hideModal('itemDetailModal')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
         </div>
     `;
+
     const actionsContainer = modalContent.querySelector('#modal-actions');
     if (currentUserId === data.ownerId) {
+        // Se o utilizador for o proprietário, mostra os botões de Editar e Excluir
         actionsContainer.innerHTML = `<button id="editItemBtn" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg">Editar</button><button id="deleteItemBtn" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg">Excluir</button>`;
         actionsContainer.querySelector('#editItemBtn').addEventListener('click', () => showEditItemModal(docId));
         actionsContainer.querySelector('#deleteItemBtn').addEventListener('click', () => deleteItem(docId));
-    } actionsContainer.innerHTML = `<button id="contactOwnerBtn" class="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg">Contatar Proprietário</button>`;
-        
+    } else {
+        // Se não for o proprietário, mostra o botão de Contatar
+        actionsContainer.innerHTML = `<button id="contactOwnerBtn" class="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg">Contatar Proprietário</button>`;
         actionsContainer.querySelector('#contactOwnerBtn').addEventListener('click', () => {
             showOwnerProfileModal(data.ownerId);
             hideModal('itemDetailModal');
-        });
-
-            // 2. Criar uma referência e buscar o documento do proprietário
-            const ownerRef = doc(db, "users", ownerId);
-            const ownerSnap = await getDoc(ownerRef);
-
-            if (ownerSnap.exists()) {
-                const ownerData = ownerSnap.data();
-
-                // 3. Extrair os dados de contato do perfil do proprietário
-                const ownerEmail = ownerData.email || 'Não informado';
-                const ownerPhone = ownerData.phone || 'Não informado'; // Assumindo que o campo 'phone' existe
-
-                // 4. Exibir os dados para o utilizador
-                alert(
-                    `Entre em contato com o proprietário:\n\n` +
-                    `Email: ${ownerEmail}\n` +
-                    `Telefone/WhatsApp: ${ownerPhone}`
-                );
-            } else {
-        // SUBSTITUA TODO O SEU BLOCO 'ELSE' POR ESTE:
-        actionsContainer.innerHTML = `<button id="contactOwnerBtn" class="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg">Contatar Proprietário</button>`;
-      
-        actionsContainer.querySelector('#contactOwnerBtn').addEventListener('click', () => {
-            showOwnerProfileModal(data.ownerId);
-            hideModal('itemDetailModal'); // Opcional: esconde o modal de item para focar no perfil
         });
     }
 
     showModal('itemDetailModal');
     loadReviews(docId);
 }
+// =================================================================
+
+
 async function showOwnerProfileModal(ownerId) {
     const modalContent = document.getElementById('ownerProfileModalContent');
     modalContent.innerHTML = `<div class="p-8"><p>A carregar perfil...</p></div>`; // Estado de carregamento
@@ -367,7 +379,6 @@ async function showOwnerProfileModal(ownerId) {
             `Membro desde ${ownerData.createdAt.toDate().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}` :
             '';
 
-        // Prepara o número de telefone para o link do WhatsApp (remove caracteres não numéricos e adiciona 55)
         const phone = ownerData.phone ? String(ownerData.phone).replace(/\D/g, '') : '';
         const whatsappLink = phone ? `https://wa.me/55${phone}` : '';
 
@@ -442,7 +453,6 @@ function showEditItemModal(id) {
 }
 
 // --- Lógica de Avaliações, Favoritos e Notificações ---
-
 async function createNotification(userId, message, itemId = null) {
     if (!userId) return;
     const notificationData = {
@@ -565,11 +575,11 @@ function loadReviews(itemId) {
                 <form id="add-review-form" class="space-y-4 pt-4 border-t">
                     <h5 class="font-bold">Deixe a sua avaliação</h5>
                     <div class="star-rating">
-                        <input type="radio" id="5-stars" name="rating" value="5" /><label for="5-stars">⭐</label>
-                        <input type="radio" id="4-stars" name="rating" value="4" /><label for="4-stars">⭐</label>
-                        <input type="radio" id="3-stars" name="rating" value="3" /><label for="3-stars">⭐</label>
-                        <input type="radio" id="2-stars" name="rating" value="2" /><label for="2-stars">⭐</label>
-                        <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star">⭐</label>
+                        <input type="radio" id="5-stars" name="rating" value="5" /><label for="5-stars" onclick="rateStar(5)">⭐</label>
+                        <input type="radio" id="4-stars" name="rating" value="4" /><label for="4-stars" onclick="rateStar(4)">⭐</label>
+                        <input type="radio" id="3-stars" name="rating" value="3" /><label for="3-stars" onclick="rateStar(3)">⭐</label>
+                        <input type="radio" id="2-stars" name="rating" value="2" /><label for="2-stars" onclick="rateStar(2)">⭐</label>
+                        <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" onclick="rateStar(1)">⭐</label>
                     </div>
                     <textarea name="comment" class="w-full p-2 border rounded-lg" placeholder="Escreva o seu comentário..."></textarea>
                     <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center justify-center">
@@ -579,28 +589,6 @@ function loadReviews(itemId) {
                 </form>
             `;
             document.getElementById('add-review-form').addEventListener('submit', (e) => handleReviewSubmit(e, itemId, item.data.ownerId));
-          const starContainer = document.querySelector('.star-rating');
-if (starContainer) {
-    const allLabels = Array.from(starContainer.querySelectorAll('label'));
-
-    starContainer.addEventListener('click', (e) => {
-        // Garante que o clique foi numa estrela (label)
-        if (e.target.tagName === 'LABEL') {
-            const clickedLabel = e.target;
-            const clickedIndex = allLabels.findIndex(label => label === clickedLabel);
-
-            // Pinta ou despinta as estrelas com base na posição da que foi clicada
-            allLabels.forEach((label, index) => {
-                if (index >= clickedIndex) {
-                    label.style.color = '#f59e0b'; // Amarelo
-                } else {
-                    label.style.color = '#d1d5db'; // Cinza
-                }
-            });
-        }
-    });
-}
-// =================================================================
         } else {
             reviewFormContainer.innerHTML = '';
         }
