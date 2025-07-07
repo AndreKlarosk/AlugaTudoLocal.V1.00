@@ -349,7 +349,7 @@ async function showItemDetailModal(id) {
     });
     // =================================================================
 
-}
+
     }
     showModal('itemDetailModal');
     loadReviews(docId);
