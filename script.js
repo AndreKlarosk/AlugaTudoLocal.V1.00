@@ -312,14 +312,10 @@ async function showItemDetailModal(id) {
         actionsContainer.querySelector('#deleteItemBtn').addEventListener('click', () => deleteItem(docId));
     } else {
         actionsContainer.innerHTML = `<button id="contactOwnerBtn" class="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg">Contatar Proprietário</button>`;
-      actionsContainer.querySelector('#contactOwnerBtn').addEventListener('click', async () => {
-        try {
-            // 1. Obter o ID do proprietário a partir dos dados do item
-            const ownerId = data.ownerId;
-            if (!ownerId) {
-                alert('Erro: ID do proprietário não encontrado.');
-                return;
-            }
+      actionsContainer.querySelector('#contactOwnerBtn').addEventListener('click', () => {
+            showOwnerProfileModal(data.ownerId);
+            hideModal('itemDetailModal'); // Opcional: esconde o modal de item para focar no perfil
+        });
 
             // 2. Criar uma referência e buscar o documento do proprietário
             const ownerRef = doc(db, "users", ownerId);
