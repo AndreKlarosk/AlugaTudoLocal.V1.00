@@ -335,18 +335,15 @@ async function showItemDetailModal(id) {
                     `Telefone/WhatsApp: ${ownerPhone}`
                 );
             } else {
-                alert('Erro: Não foi possível encontrar os dados de contato do proprietário.');
-                console.error("Documento do proprietário não encontrado:", ownerId);
-            }
-        } catch (error) {
-            alert('Ocorreu um erro ao buscar os contatos. Tente novamente mais tarde.');
-            console.error("Erro ao contatar proprietário:", error);
-        }
-    });
-    // =================================================================
-
-
+        // SUBSTITUA TODO O SEU BLOCO 'ELSE' POR ESTE:
+        actionsContainer.innerHTML = `<button id="contactOwnerBtn" class="flex-1 bg-green-500 text-white font-bold py-3 px-4 rounded-lg">Contatar Proprietário</button>`;
+      
+        actionsContainer.querySelector('#contactOwnerBtn').addEventListener('click', () => {
+            showOwnerProfileModal(data.ownerId);
+            hideModal('itemDetailModal'); // Opcional: esconde o modal de item para focar no perfil
+        });
     }
+
     showModal('itemDetailModal');
     loadReviews(docId);
 }
