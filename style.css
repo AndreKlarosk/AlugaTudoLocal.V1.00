@@ -61,9 +61,14 @@ img.error {
     cursor: pointer;
     transition: color 0.2s;
 }
-.star-rating input[type="radio"]:checked ~ label,
+/* A estrela que está sob o mouse (hover) E as anteriores a ela ficam amarelas */
 .star-rating label:hover,
 .star-rating label:hover ~ label {
+    color: #f59e0b; /* amarelo */
+}
+
+/* Após o clique (checked), a estrela selecionada E as anteriores ficam permanentemente amarelas */
+.star-rating input[type="radio"]:checked ~ label {
     color: #f59e0b; /* amarelo */
 }
 
