@@ -495,6 +495,23 @@ function loadReviews(itemId) {
                 </form>
             `;
             document.getElementById('add-review-form').addEventListener('submit', (e) => handleReviewSubmit(e, itemId, item.data.ownerId));
+          // =================================================================
+            // >> ADICIONE ESTE NOVO BLOCO DE CÓDIGO AQUI <<
+            // Responsável pelo feedback visual IMEDIATO das estrelas
+            const starLabels = document.querySelectorAll('.star-rating label');
+            starLabels.forEach(label => {
+                label.addEventListener('click', () => {
+                    // Remove a cor de todas as estrelas primeiro
+                    starLabels.forEach(lbl => lbl.style.color = '#d1d5db');
+                    // Pinta a estrela clicada e as anteriores
+                    let currentLabel = label;
+                    while (currentLabel) {
+                        currentLabel.style.color = '#f59e0b';
+                        currentLabel = currentLabel.nextElementSibling?.nextElementSibling;
+                    }
+                });
+            });
+            // =================================================================
         } else {
             reviewFormContainer.innerHTML = '';
         }
